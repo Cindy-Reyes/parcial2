@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodologías de Desarrollo de SW</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 1.8em;
+            color: #333;
+            margin: 40px 0 20px 0;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .descripcion {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
+
+        .metodologias-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .boton-metodologia {
+            padding: 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .boton-metodologia:hover {
+            transform: scale(1.05);
+        }
+
+        .cascada {
+            background-color: #1e88e5;
+        }
+
+        .modelo-v {
+            background-color: #666;
+        }
+
+        .agiles {
+            background-color: #43a047;
+        }
+
+        .scrum {
+            background-color: #e53935;
+        }
+
+        .kanban {
+            background-color: #fbc02d;
+            color: #333;
+        }
+
+        .xp {
+            background-color: #00bcd4;
+        }
+
+        .hibridas {
+            background-color: #212121;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .link-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .boton-link {
+            padding: 15px 40px;
+            border: 2px solid #1e88e5;
+            background-color: white;
+            color: #1e88e5;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .boton-link:hover {
+            background-color: #1e88e5;
+            color: white;
+        }
+
+        .separador {
+            border-top: 2px solid #ddd;
+            margin: 40px 0;
+        }
+
+        .boton-regresar {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            border: 2px solid #1e88e5;
+            background-color: white;
+            color: #1e88e5;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: fit-content;
+        }
+
+        .boton-regresar:hover {
+            background-color: #1e88e5;
+            color: white;
+        }
+
+        .frase-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .frase-section h3 {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .ejemplo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .alumno {
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #999;
+            padding-bottom: 15px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .close-btn {
+            font-size: 2em;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            color: #666;
+        }
+
+        .modal-subtitle {
+            font-size: 1.1em;
+            color: #999;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .modal-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .modal-step {
+            display: flex;
+            gap: 20px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .modal-step-number {
+            min-width: 50px;
+            min-height: 50px;
+            background-color: #e8e8e8;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .modal-step-content h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .modal-step-content p {
+            margin: 0;
+            color: #999;
+            font-size: 0.95em;
+        }
+
+        .modal-footer {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metodologias-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .metodologias-grid .boton-metodologia:nth-child(7) {
+                grid-column: 1 / 3;
+                max-width: 240px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .modal-step {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>METODOLOGÍAS DE DESARROLLO DE SW</h1>
+
+        <div class="section">
+            <h2>¿Qué es una metodología de desarrollo de software?</h2>
+            <p class="descripcion">
+                Las metodologías de desarrollo de software son un conjunto de técnicas y métodos organizativos que se aplican para diseñar soluciones de software informático. El objetivo de las distintas metodologías es el de intentar organizar los equipos de trabajo para que estos desarrollen las funciones de un programa de la mejor manera posible.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>TIPOS DE METODOLOGÍAS</h2>
+            <div class="metodologias-grid">
+                <button class="boton-metodologia cascada" onclick="abrirModal('cascada')">CASCADA</button>
+                <button class="boton-metodologia modelo-v" onclick="abrirModal('modeloV')">MODELO V</button>
+                <button class="boton-metodologia agiles" onclick="abrirModal('agiles')">ÁGILES</button>
+                <button class="boton-metodologia scrum" onclick="abrirModal('scrum')">SCRUM</button>
+                <button class="boton-metodologia kanban" onclick="abrirModal('kanban')">KANBAN</button>
+                <button class="boton-metodologia xp" onclick="abrirModal('xp')">XP</button>
+                <button class="boton-metodologia hibridas" onclick="abrirModal('hibridas')">HÍBRIDAS</button>
+            </div>
+        </div>
+
+        <div class="separador"></div>
+
+        <div class="link-section">
+            <h3>LINK A TABLERO DE TRABAJO</h3>
+            <br>
+            <a href="https://cindylu.atlassian.net/jira/software/projects/KAN/boards/1" class="boton-link" target="_blank">----- JIRA -----</a>
+        </div>
+
+        <div class="separador"></div>
+
+        <a href="https://tourmaline-taffy-b6dda2.netlify.app" class="boton-regresar" target="_blank">----- REGRESAR MENÚ PRINCIPAL -----</a>
+
+        <div class="frase-section">
+            <h3>Frase:</h3>
+            <p class="ejemplo">" Ningún futuro es real si elijo quedarme en el presente "</p>
+        </div>
+
+        <div class="alumno">
+            Alumno: Cindy Alejandra Reyes Arce
+        </div>
+    </div>
+
+    <!-- MODALES -->
+    <!-- Modal Cascada -->
+    <div id="modal-cascada" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista de Cascada</h2>
+                <button class="close-btn" onclick="cerrarModal('cascada')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="imagenes/cascada.png" alt="Cascada" class="modal-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Modelo V -->
+    <div id="modal-modeloV" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista de Modelo V</h2>
+                <button class="close-btn" onclick="cerrarModal('modeloV')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="imagenes/modelo V.png" alt="Modelo V" class="modal-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ágiles -->
+    <div id="modal-agiles" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista de Metodologías Ágiles</h2>
+                <button class="close-btn" onclick="cerrarModal('agiles')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="imagenes/agiles.png" alt="Ágiles" class="modal-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Scrum -->
+    <div id="modal-scrum" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista de Scrum</h2>
+                <button class="close-btn" onclick="cerrarModal('scrum')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="imagenes/scrum.png" alt="Scrum" class="modal-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Kanban -->
+    <div id="modal-kanban" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista de Kanban</h2>
+                <button class="close-btn" onclick="cerrarModal('kanban')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="imagenes/kanban.png" alt="Kanban" class="modal-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal XP -->
+    <div id="modal-xp" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista de Programación Extrema (XP)</h2>
+                <button class="close-btn" onclick="cerrarModal('xp')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="imagenes/xp.png" alt="XP" class="modal-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Híbridas -->
+    <div id="modal-hibridas" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista de Metodologías Híbridas</h2>
+                <button class="close-btn" onclick="cerrarModal('hibridas')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="imagenes/hiibridas.png" alt="Híbridas" class="modal-image">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.classList.add('active');
+            }
+        }
+
+        function cerrarModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Cerrar el modal si se hace clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
